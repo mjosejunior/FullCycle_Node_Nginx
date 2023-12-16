@@ -2,12 +2,18 @@ version: '3'
 
 services:
   app:
-    build: .
+    build: .      
     depends_on:
       db:
         condition: service_healthy
+    container_name: app
     networks:
       - mynetwork
+    volumes:
+      - ./node:/usr/src/app
+    tty: true
+    ports:
+      - "3000:3000"
 
   nginx:
     build: ./nginx
@@ -15,6 +21,7 @@ services:
       - "8080:80"
     depends_on:
       - app
+    container_name: nginx
     networks:
       - mynetwork
 
@@ -22,6 +29,7 @@ services:
     image: mysql:5.7
     volumes:
       - dbdata:/var/lib/mysql
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: fullcycle
