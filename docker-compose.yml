@@ -11,6 +11,7 @@ services:
       - mynetwork
     volumes:
       - ./node:/usr/src/app
+      - /usr/src/app/node_modules # Volume anônimo - garante que o diretório node_modules dentro do container não seja sobrescrito pelo conteúdo do host
     tty: true
     ports:
       - "3000:3000"
